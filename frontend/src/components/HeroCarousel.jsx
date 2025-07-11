@@ -1,67 +1,59 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import deptImg from '../assets/images/dept_img.jpg';
-import gallery2 from '../assets/images/dept_img.jpg';
-import gallery3 from '../assets/images/dept_img.jpg';
 
-const images = [
-  { src: deptImg, showWelcome: true },
-  { src: gallery2, showWelcome: false },
-  { src: gallery3, showWelcome: false },
-];
+import eye1 from '../assets/images/homepage/Img1.png'
+import eye2 from '../assets/images/homepage/Img2.png'
+import eye3 from '../assets/images/homepage/Img3.png'
+
+const images = [eye1, eye2, eye3];
 
 const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
-  const [fade, setFade] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const changeSlide = (newIndex) => {
-    setFade(false); // Start fade out
-    setTimeout(() => {
-      setCurrent(newIndex);
-      setFade(true); // Fade back in
-    }, 300); // Match fade duration (CSS: 300ms)
-  };
+  const totalSlides = images.length;
+  const slideDuration = 3000;
 
-  const nextSlide = () => {
-    changeSlide((current + 1) % images.length);
-  };
+  useEffect(() => {
+    if (isPaused) return;
 
-  const prevSlide = () => {
-    changeSlide((current - 1 + images.length) % images.length);
-  };
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % totalSlides);
+    }, slideDuration);
+
+    return () => clearInterval(interval);
+  }, [current, isPaused]);
 
   return (
     <div
-      className={`main relative transition-opacity duration-300 ease-in-out ${fade ? 'opacity-100' : 'opacity-0'}`}
-      style={{
-        backgroundImage: `linear-gradient(rgba(6,6,6,0.5), rgba(39,38,38,0.5)), url(${images[current].src})`,
-      }}
+      className="relative cursor-pointer w-full h-[50vh] sm:h-[60vh] lg:h-[65vh] overflow-hidden rounded-xl"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
-      {images[current].showWelcome && (
-        <>
-          <div className="welcome">
-            <h1>Welcome to the Department of Mathematics</h1>
-          </div>
+      {/* Top progress bar */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gray-300 z-20">
+        <div
+          className="h-full bg-[#4c83bb] transition-all duration-300"
+          style={{
+            width: `${((current + 1) / totalSlides) * 100}%`,
+          }}
+        />
+      </div>
 
-          <div className="know_more">
-            <a href="#">KNOW MORE</a>
-          </div>
-        </>
-      )}
-
-      <button
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition"
-        onClick={prevSlide}
+      {/* Slide */}
+      <div
+        className="flex transition-transform duration-700 ease-in-out h-full"
+        style={{ transform: `translateX(-${current * 100}%)` }}
       >
-        <ArrowLeft />
-      </button>
-
-      <button
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition"
-        onClick={nextSlide}
-      >
-        <ArrowRight />
-      </button>
+        {images.map((src, index) => (
+          <div key={index} className="min-w-full h-full">
+            <img
+              src={src}
+              alt={`Slide ${index}`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
