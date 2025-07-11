@@ -1,5 +1,3 @@
-import React from 'react';
-
 const BTech = () => {
   return (
     <section className="bg-white p-6 rounded-xl shadow mt-6">

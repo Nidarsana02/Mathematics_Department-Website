@@ -3,11 +3,14 @@ import { useState } from 'react';
 import logo from '../assets/images/iiti-logo.png';
 import hamMenu from '../assets/images/menu.svg';
 import close from '../assets/images/close.svg';
+import { useAuthStore } from '../store/useAuthStore';
 
 const Header = () => {
   const [isHamClicked, setIsHamClicked] = useState(false);
+  const { logoutFn, authUser } = useAuthStore();
+
   return (
-    <div className="font-bold">
+    <div className="font-bold bg-white">
       <header className="flex items-center justify-start gap-6 pl-8 mb-5 mt-5">
         <div>
           <NavLink to="https://www.iiti.ac.in/">
@@ -34,7 +37,7 @@ const Header = () => {
         </div>
       </header>
       <nav className="bg-[#040C3D] text-white flex flex-col justify-center items-center py-5">
-        <ul className="flex max-sm:hidden justify-between items-center max-sm:gap-3 max-sm:py-3 sm:gap-6 sm:py-3 md:gap-12 md:py-5">
+        <ul className="flex max-md:hidden justify-between items-center max-md:gap-3 max-md:py-3 md:gap-6 md:py-3 lg:gap-12 lg:py-5">
           <li>
             <NavLink
               className={({ isActive }) => (isActive ? 'text-cyan-400' : '')}
@@ -79,14 +82,17 @@ const Header = () => {
               Contact Us
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? 'text-cyan-400' : '')}
-              to="login"
-            >
-              Log In
-            </NavLink>
-          </li>
+
+          {!authUser && (
+            <li>
+              <NavLink
+                className={({ isActive }) => (isActive ? 'text-cyan-400' : '')}
+                to="login"
+              >
+                Log In
+              </NavLink>
+            </li>
+          )}
           <li>
             <NavLink
               className={({ isActive }) => (isActive ? 'text-cyan-400' : '')}
@@ -95,9 +101,45 @@ const Header = () => {
               Gallery
             </NavLink>
           </li>
+
+          {authUser && (
+            <>
+              <li>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? 'text-cyan-400' : ''
+                  }
+                  to="profile"
+                >
+                  Profile
+                </NavLink>
+              </li>
+
+              <li>
+                <button className="cursor-pointer" onClick={logoutFn}>
+                  <span>Logout</span>
+                </button>
+              </li>
+            </>
+          )}
+
+          {authUser?.role === 'admin' && (
+            <>
+              <li>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? 'text-cyan-400' : ''
+                  }
+                  to="manage-faculty"
+                >
+                  Manage Faculty
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
-        <div className="sm:hidden w-full  flex flex-col justify-between items-start">
-          <div className="w-8 h-8 mr-8 self-end sm:hidden">
+        <div className="md:hidden w-full  flex flex-col justify-between items-start">
+          <div className="w-8 h-8 mr-8 self-end md:hidden">
             <img
               src={isHamClicked ? close : hamMenu}
               alt="hamburger"
@@ -111,7 +153,7 @@ const Header = () => {
             className={`w-full overflow-hidden transition-all duration-600 ease-in-out transform
     ${isHamClicked ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
           >
-            <ul className="ml-5 flex flex-col bg-[#040C3D] text-white justify-between items-start max-sm:gap-3 max-sm:py-3 sm:gap-6 sm:py-3 md:gap-12 md:py-5">
+            <ul className="ml-5 flex flex-col bg-[#040C3D] text-white justify-between items-start max-md:gap-3 max-md:py-3 md:gap-6 md:py-3">
               <li>
                 <NavLink
                   className={({ isActive }) =>
@@ -164,16 +206,20 @@ const Header = () => {
                   Contact Us
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive ? 'text-cyan-400' : ''
-                  }
-                  to="login"
-                >
-                  Log In
-                </NavLink>
-              </li>
+
+              {!authUser && (
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? 'text-cyan-400' : ''
+                    }
+                    to="login"
+                  >
+                    Log In
+                  </NavLink>
+                </li>
+              )}
+
               <li>
                 <NavLink
                   className={({ isActive }) =>
@@ -184,6 +230,42 @@ const Header = () => {
                   Gallery
                 </NavLink>
               </li>
+
+              {authUser && (
+                <>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? 'text-cyan-400' : ''
+                      }
+                      to="profile"
+                    >
+                      Profile
+                    </NavLink>
+                  </li>
+
+                  <li>
+                    <button className="cursor-pointer" onClick={logoutFn}>
+                      <span>Logout</span>
+                    </button>
+                  </li>
+                </>
+              )}
+
+              {authUser?.role === 'admin' && (
+                <>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? 'text-cyan-400' : ''
+                      }
+                      to="manage-faculty"
+                    >
+                      Manage Faculty
+                    </NavLink>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

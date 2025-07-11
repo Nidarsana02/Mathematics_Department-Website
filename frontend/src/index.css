@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* @tailwind base;
+@tailwind components; */
+/* @tailwind utilities; */
 
 @font-face {
   font-family: poppins;
@@ -9,9 +9,9 @@
 
 @import "tailwindcss";
 
-@theme{
+/* @theme{
   --font-poppins:poppins, 'mono'
-}
+} */
 
 @layer utilities {
   @keyframes scroll-up {

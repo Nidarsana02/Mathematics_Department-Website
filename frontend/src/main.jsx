@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import HomePage from './pages/HomePage';
 import Programs from './pages/Programs';
-import BTech from './pages/BTech';
+import BTech from './pages/btech';
 import MSc from './pages/MSc';
 import PhD from './pages/PhD';
 import LoginPage from './pages/LoginPage';
@@ -13,6 +13,10 @@ import PeoplePage from './pages/PeoplePage';
 import ContactPage from './pages/ContactPage';
 import ResearchPage from './pages/ResearchPage';
 import GalleryPage from './pages/GalleryPage';
+import ProfilePage from './pages/ProfilePage';
+import UpdateProfilePage from './pages/UpdateProfilePage';
+import ManageFacultyPage from './pages/ManageFacultyPage';
+import UpdateFacultyPage from './pages/UpdateFacultyPage';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +57,22 @@ const router = createBrowserRouter([
       {
         path:'gallery',
         element:<GalleryPage/>
+      },
+      {
+        path:'profile',
+        element:<ProfilePage/>
+      },
+      {
+        path:'update-profile',
+        element:<UpdateProfilePage/>
+      },
+      {
+        path:'manage-faculty',
+        element:<ManageFacultyPage/>
+      },
+      {
+        path:'update-faculty/:id',
+        element:<UpdateFacultyPage/>
       }
     ],
   },
