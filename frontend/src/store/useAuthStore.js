@@ -8,6 +8,8 @@ export const useAuthStore = create((set, get) => ({
   isLoggingOut: false, //not actually needed
   isUpdatingProfile: false,
   isCheckingAuth: true,
+  announcements: [],
+  announcement: null,
 
   checkAuthFn: async () => {
     try {
@@ -58,6 +60,70 @@ export const useAuthStore = create((set, get) => ({
       toast.error(error?.response?.data?.message || 'Update failed');
     } finally {
       set({ isUpdatingProfile: false });
+    }
+  },
+
+  fetchAnnouncementsFn: async () => {
+    try {
+      const res = await axiosInstance.get('/announcements');
+      set({ announcements: res.data });
+    } catch (error) {
+      console.error('Error fetching announcements:', error);
+      toast.error('Failed to fetch announcements.');
+    }
+  },
+
+  deleteAnnouncementFn: async (id) => {
+    try {
+      await axiosInstance.delete(`/announcements/delete/${id}`);
+      toast.success('Deleted successfully');
+    } catch (error) {
+      console.error('Error deleting announcement:', error);
+      toast.error('Failed to delete.');
+    }
+  },
+
+  addAnnouncementFn: async (data) => {
+    try {
+      await axiosInstance.post('/announcements/add', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      toast.success('Announcement Added');
+    } catch (error) {
+      console.error('Error adding announcement:', error);
+      toast.error('Failed to add.');
+    }
+  },
+
+  getAnnouncementFn: async (id) => {
+    try {
+      const res = await axiosInstance.get(`/announcements/get/${id}`);
+      set({ announcement: res.data });
+    } catch (error) {
+      console.error('Error adding announcement:', error);
+      toast.error('Failed to fetch announcement.');
+    }
+  },
+
+  editAnnouncementFn: async (id, formData) => {
+    try {
+      const res = await axiosInstance.patch(
+        `/announcements/edit/${id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      set({ announcement: null }); // Clear after edit
+      toast.success('Announcement edited successfully');
+    } catch (error) {
+      console.error('Error editing announcement:', error);
+      toast.error('Failed to edit announcement.');
     }
   },
 }));

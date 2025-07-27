@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/useAuthStore';
 
 const ManageFacultyPage = () => {
-  const {authUser} = useAuthStore()
+  const { authUser } = useAuthStore();
   const [facultyList, setFacultyList] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -37,6 +37,10 @@ const ManageFacultyPage = () => {
     }
   };
 
+  const handleClickUpload = () => {
+    document.getElementById('profilePicInput').click();
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -63,8 +67,8 @@ const ManageFacultyPage = () => {
     }
   };
 
-  if(!authUser || !authUser?.role==='admin'){
-   return  <Navigate to='/'/>
+  if (!authUser || authUser?.role !== 'admin') {
+    return <Navigate to="/" />;
   }
 
   return (
@@ -131,10 +135,32 @@ const ManageFacultyPage = () => {
           onChange={handleChange}
           required
         />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        {previewUrl && (
-          <img src={previewUrl} className="w-24 h-24 rounded-full border" />
-        )}
+
+        <div className="space-y-2">
+          <label className="block text-sm font-medium">Upload Profile Picture</label>
+          <div
+            onClick={handleClickUpload}
+            className="w-24 h-24 flex items-center justify-center rounded-full border border-dashed cursor-pointer hover:bg-gray-100"
+          >
+            {previewUrl ? (
+              <img
+                src={previewUrl}
+                alt="Preview"
+                className="w-24 h-24 rounded-full object-cover"
+              />
+            ) : (
+              <span className="text-sm text-gray-500">Upload</span>
+            )}
+          </div>
+          <input
+            type="file"
+            accept="image/*"
+            id="profilePicInput"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+        </div>
+
         <button
           type="submit"
           className="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-600"

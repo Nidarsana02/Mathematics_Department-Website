@@ -1,7 +1,7 @@
-import User from "../models/user.model.js";
-import path from 'path'
-import fs from 'fs'
-import { fileURLToPath } from "url";
+import User from '../models/user.model.js';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,7 +19,13 @@ export const editProfile = async (req, res) => {
     if (req.file) {
       // Delete old profile pic if exists
       if (user.profilePic) {
-        const oldPath = path.join(__dirname,'..', 'uploads', user.profilePic);
+        const oldPath = path.join(
+          __dirname,
+          '..',
+          'uploads',
+          'imgs',
+          user.profilePic
+        );
         if (fs.existsSync(oldPath)) {
           fs.unlinkSync(oldPath);
         }
@@ -57,6 +63,7 @@ export const getProfilePic = async (req, res) => {
       import.meta.dirname,
       '..',
       'uploads',
+      'imgs',
       user.profilePic
     );
 

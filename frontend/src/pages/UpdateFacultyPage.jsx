@@ -7,7 +7,7 @@ import { useAuthStore } from '../store/useAuthStore';
 const UpdateFacultyPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const {authUser} = useAuthStore()
+  const { authUser } = useAuthStore();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -45,6 +45,10 @@ const UpdateFacultyPage = () => {
     }
   };
 
+  const handleClickUpload = () => {
+    document.getElementById('profilePicInput').click();
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -80,7 +84,7 @@ const UpdateFacultyPage = () => {
     }
   };
 
-  if (!authUser || !authUser?.role === 'admin') {
+  if (!authUser || authUser?.role !== 'admin') {
     return <Navigate to="/" />;
   }
 
@@ -89,7 +93,7 @@ const UpdateFacultyPage = () => {
       onSubmit={handleSubmit}
       className="max-w-md mx-auto mt-10 space-y-5 p-4 border rounded shadow"
     >
-      <h2 className="text-2xl font-bold">update Faculty</h2>
+      <h2 className="text-2xl font-bold">Update Faculty</h2>
 
       <label className="block font-semibold">Name</label>
       <input
@@ -121,23 +125,27 @@ const UpdateFacultyPage = () => {
       />
 
       <label className="block font-semibold">Profile Picture</label>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-        className="w-full"
-      />
-
-      {previewUrl && (
-        <div className="mt-4">
-          <p className="text-sm text-gray-600 mb-1">Preview:</p>
+      <div
+        onClick={handleClickUpload}
+        className="w-32 h-32 flex items-center justify-center rounded-full border border-dashed cursor-pointer hover:bg-gray-100"
+      >
+        {previewUrl ? (
           <img
             src={previewUrl}
             alt="Preview"
-            className="w-32 h-32 object-cover rounded-full border"
+            className="w-32 h-32 object-cover rounded-full"
           />
-        </div>
-      )}
+        ) : (
+          <span className="text-sm text-gray-500">Upload</span>
+        )}
+      </div>
+      <input
+        type="file"
+        accept="image/*"
+        id="profilePicInput"
+        onChange={handleImageChange}
+        className="hidden"
+      />
 
       <div className="flex gap-4">
         <button

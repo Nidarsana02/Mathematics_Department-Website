@@ -138,7 +138,7 @@ const HomePage = () => {
             <h2 className="text-2xl font-bold text-[#4c83bb] mb-3">NEWS</h2>
             <hr className="border-b-2 border-[#4c83bb] mb-4" />
             <ul className="list-disc list-inside text-sm space-y-2">
-              <li><a href="#" className="text-blue-700">Prof. Sharma wins INSA award</a></li>
+              <li><a href="#" className="text-blue-700">Prof. ABC wins INSA award</a></li>
               <li><a href="#" className="text-blue-700">Mathematics fest concluded</a></li>
               <li><a href="#" className="text-blue-700">New faculty members joined</a></li>
               <li><a href="#" className="text-blue-700">Workshop on Number Theory</a></li>

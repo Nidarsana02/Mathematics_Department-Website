@@ -17,6 +17,10 @@ import ProfilePage from './pages/ProfilePage';
 import UpdateProfilePage from './pages/UpdateProfilePage';
 import ManageFacultyPage from './pages/ManageFacultyPage';
 import UpdateFacultyPage from './pages/UpdateFacultyPage';
+import AnnouncementsPage from './pages/AnnouncementsPage';
+import NewsPage from './pages/NewsPage';
+import AddAnnouncementPage from './pages/AddAnnouncementPage';
+import EditAnnouncementPage from './pages/EditAnnouncementPage';
 
 const router = createBrowserRouter([
   {
@@ -25,55 +29,70 @@ const router = createBrowserRouter([
     // errorElement:<ErrorPage/>,
     children: [
       {
-        path:'/',
+        path: '/',
         element: <HomePage />,
       },
       {
         path: '/programs',
         element: <Programs />,
         children: [
-          {path: 'btech', element: <BTech />},
-          {path: 'msc', element: <MSc />},
-          {path: 'phd', element: <PhD />},
-        ]
+          { path: 'btech', element: <BTech /> },
+          { path: 'msc', element: <MSc /> },
+          { path: 'phd', element: <PhD /> },
+        ],
       },
       {
-
-        path:'login',
-        element:<LoginPage/>
+        path: 'login',
+        element: <LoginPage />,
       },
       {
-        path:'people',
-        element:<PeoplePage/>
+        path: 'people',
+        element: <PeoplePage />,
       },
       {
-        path:'contact',
-        element:<ContactPage/>
+        path: 'contact',
+        element: <ContactPage />,
       },
       {
-        path:'research',
-        element:<ResearchPage/>
+        path: 'research',
+        element: <ResearchPage />,
       },
       {
-        path:'gallery',
-        element:<GalleryPage/>
+        path: 'gallery',
+        element: <GalleryPage />,
       },
       {
-        path:'profile',
-        element:<ProfilePage/>
+        path: 'profile',
+        element: <ProfilePage />,
       },
       {
-        path:'update-profile',
-        element:<UpdateProfilePage/>
+        path: 'update-profile',
+        element: <UpdateProfilePage />,
       },
       {
-        path:'manage-faculty',
-        element:<ManageFacultyPage/>
+        path: 'manage-faculty',
+        element: <ManageFacultyPage />,
       },
       {
-        path:'update-faculty/:id',
-        element:<UpdateFacultyPage/>
-      }
+        path: 'update-faculty/:id',
+        element: <UpdateFacultyPage />,
+      },
+      {
+        path: 'announcements',
+        element: <AnnouncementsPage />,
+      },
+      {
+        path: 'add-announcement',
+        element: <AddAnnouncementPage />,
+      },
+      {
+        path: 'edit-announcement',
+        element: <EditAnnouncementPage />,
+      },
+      {
+        path: 'news',
+        element: <NewsPage />,
+      },
     ],
   },
 ]);
