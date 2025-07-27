@@ -50,7 +50,7 @@ const AnnouncementsPage = () => {
               className="border border-gray-300 p-6 rounded-xl shadow hover:shadow-md transition-shadow"
             >
               <a
-                href={`http://localhost:1821/api/announcements/pdf/${item._id}`} // assuming item.pdf holds filename like 'abc.pdf'
+                href={`http://localhost:1821/api/announcements/pdf/${item._id}`} 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xl font-semibold text-[#4c83bb] mb-2 hover:underline"

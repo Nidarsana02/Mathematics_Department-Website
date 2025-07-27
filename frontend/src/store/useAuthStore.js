@@ -66,6 +66,7 @@ export const useAuthStore = create((set, get) => ({
   fetchAnnouncementsFn: async () => {
     try {
       const res = await axiosInstance.get('/announcements');
+      console.log(res.data)
       set({ announcements: res.data });
     } catch (error) {
       console.error('Error fetching announcements:', error);

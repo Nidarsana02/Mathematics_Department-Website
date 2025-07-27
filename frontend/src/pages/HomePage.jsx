@@ -1,8 +1,25 @@
 import HeroCarousel from '../components/HeroCarousel';
 import abt_department from '../assets/images/abt_dept.jpg';
 import HoD_img from '../assets/images/sanjeev_iiti.jpg';
+import { useAuthStore } from '../store/useAuthStore';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const HomePage = () => {
+  const [recentAnnouncements, setRecentAnnouncements] = useState([]);
+  const { announcements, fetchAnnouncementsFn } = useAuthStore();
+
+  useEffect(() => {
+    fetchAnnouncementsFn();
+  }, []);
+
+  useEffect(() => {
+    // Update when Zustand announcements changes
+    if (announcements.length > 0) {
+      setRecentAnnouncements(announcements.slice(0, 3));
+    }
+  }, [announcements]);
+
   return (
     <div className="bg-gray-50 text-gray-900">
       {/* Hero Section with Quick Links */}
@@ -14,17 +31,35 @@ const HomePage = () => {
 
         {/* Quick Links */}
         <div className="bg-white p-6 rounded-xl shadow-md h-[50vh] overflow-y-auto">
-          <h2 className="text-2xl font-bold text-[#4c83bb] mb-3">QUICK LINKS</h2>
+          <h2 className="text-2xl font-bold text-[#4c83bb] mb-3">
+            QUICK LINKS
+          </h2>
           <hr className="border-b-2 border-[#4c83bb] mb-4" />
           <ul className="list-disc list-inside text-sm space-y-2 text-[#1f4e79]">
-            <li><a href="#">Timetable</a></li>
-            <li><a href="#">Syllabus</a></li>
-            <li><a href="#">Faculty Login</a></li>
-            <li><a href="#">Research Areas</a></li>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">Notices</a></li>
-            <li><a href="#">Admissions</a></li>
-            <li><a href="#">Student Portal</a></li>
+            <li>
+              <a href="#">Timetable</a>
+            </li>
+            <li>
+              <a href="#">Syllabus</a>
+            </li>
+            <li>
+              <a href="#">Faculty Login</a>
+            </li>
+            <li>
+              <a href="#">Research Areas</a>
+            </li>
+            <li>
+              <a href="#">Events</a>
+            </li>
+            <li>
+              <a href="#">Notices</a>
+            </li>
+            <li>
+              <a href="#">Admissions</a>
+            </li>
+            <li>
+              <a href="#">Student Portal</a>
+            </li>
           </ul>
         </div>
       </section>
@@ -35,15 +70,20 @@ const HomePage = () => {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* About the Department */}
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
-            <h2 className="text-2xl font-bold text-[#4c83bb] mb-3">ABOUT THE DEPARTMENT</h2>
+            <h2 className="text-2xl font-bold text-[#4c83bb] mb-3">
+              ABOUT THE DEPARTMENT
+            </h2>
             <hr className="border-b-2 border-[#4c83bb] mb-4" />
             <p className="text-sm leading-relaxed">
-              Since its inception in July 2009, the Department of Mathematics has evolved in several directions.
-              The department presently offers M.Sc. and Ph. D. programs in Mathematics. In addition to these
-              programs, the department teaches several Mathematics courses to the undergraduate and postgraduate
-              students of various engineering and science departments. The department aims to focus on providing
-              a comprehensive curriculum at undergraduate and postgraduate levels, relevant research and career
-              opportunities in India and abroad.
+              Since its inception in July 2009, the Department of Mathematics
+              has evolved in several directions. The department presently offers
+              M.Sc. and Ph. D. programs in Mathematics. In addition to these
+              programs, the department teaches several Mathematics courses to
+              the undergraduate and postgraduate students of various engineering
+              and science departments. The department aims to focus on providing
+              a comprehensive curriculum at undergraduate and postgraduate
+              levels, relevant research and career opportunities in India and
+              abroad.
             </p>
             <img
               src={abt_department}
@@ -62,7 +102,9 @@ const HomePage = () => {
           <div className="flex flex-col gap-6">
             {/* Message from HoD */}
             <div className="bg-white p-6 rounded-xl h-fit shadow-md hover:shadow-lg transition duration-300">
-              <h2 className="text-2xl font-bold text-[#4c83bb] mb-3">MESSAGE FROM HOD</h2>
+              <h2 className="text-2xl font-bold text-[#4c83bb] mb-3">
+                MESSAGE FROM HOD
+              </h2>
               <hr className="border-b-2 border-[#4c83bb] mb-4" />
               <div className="flex flex-col items-center space-y-4">
                 <img
@@ -119,16 +161,36 @@ const HomePage = () => {
         {/* Announcements & News */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Announcements */}
+          {/* Announcements */}
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
-            <h2 className="text-2xl font-bold text-[#4c83bb] mb-3">ANNOUNCEMENTS</h2>
+            <h2 className="text-2xl font-bold text-[#4c83bb] mb-3">
+              ANNOUNCEMENTS
+            </h2>
             <hr className="border-b-2 border-[#4c83bb] mb-4" />
             <ul className="list-disc list-inside text-sm space-y-2">
-              <li><a href="#" className="text-blue-700">New B.Tech program launched</a></li>
-              <li><a href="#" className="text-blue-700">PhD Admissions Open</a></li>
-              <li><a href="#" className="text-blue-700">Mid-Sem Exam Schedule Released</a></li>
-              <li><a href="#" className="text-blue-700">Convocation 2025 Notice</a></li>
+              {recentAnnouncements.length > 0 ? (
+                recentAnnouncements.map((item) => (
+                  <li key={item._id}>
+                    <a
+                      href={`http://localhost:1821/api/announcements/pdf/${item._id}`} // adjust path if needed
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-700 hover:underline"
+                    >
+                      {item.title}
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <li className="text-gray-500 text-sm">
+                  No recent announcements
+                </li>
+              )}
             </ul>
-            <a href="/announcements" className="text-[#4c83bb] hover:underline font-medium mt-4 inline-block">
+            <a
+              href="/announcements"
+              className="text-[#4c83bb] hover:underline font-medium mt-4 inline-block"
+            >
               View All
             </a>
           </div>
@@ -138,12 +200,31 @@ const HomePage = () => {
             <h2 className="text-2xl font-bold text-[#4c83bb] mb-3">NEWS</h2>
             <hr className="border-b-2 border-[#4c83bb] mb-4" />
             <ul className="list-disc list-inside text-sm space-y-2">
-              <li><a href="#" className="text-blue-700">Prof. ABC wins INSA award</a></li>
-              <li><a href="#" className="text-blue-700">Mathematics fest concluded</a></li>
-              <li><a href="#" className="text-blue-700">New faculty members joined</a></li>
-              <li><a href="#" className="text-blue-700">Workshop on Number Theory</a></li>
+              <li>
+                <a href="#" className="text-blue-700">
+                  Prof. ABC wins INSA award
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-blue-700">
+                  Mathematics fest concluded
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-blue-700">
+                  New faculty members joined
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-blue-700">
+                  Workshop on Number Theory
+                </a>
+              </li>
             </ul>
-            <a href="/news" className="text-[#4c83bb] hover:underline font-medium mt-4 inline-block">
+            <a
+              href="/news"
+              className="text-[#4c83bb] hover:underline font-medium mt-4 inline-block"
+            >
               View More
             </a>
           </div>
